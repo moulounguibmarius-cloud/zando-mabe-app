@@ -1,0 +1,12 @@
+{
+  "appId": "com.zandomabe.app",
+  "appName": "Zando Mabe",
+  "webDir": "www",
+  "server": {
+    "url": "https://zandomabe.web.app",
+    "cleartext": false
+  },
+  "android": {
+    "allowMixedContent": false
+  }
+}
