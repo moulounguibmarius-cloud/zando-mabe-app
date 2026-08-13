@@ -1,0 +1,32 @@
+name: Build iOS
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - name: Récupérer le code
+        uses: actions/checkout@v4
+      - name: Installer Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Installer les dépendances
+        run: npm install
+      - name: Synchroniser Capacitor
+        run: npx cap sync ios
+      - name: Compiler (simulateur, sans signature)
+        run: |
+          cd ios/App
+          xcodebuild -scheme App -configuration Debug \
+            -sdk iphonesimulator -derivedDataPath build \
+            CODE_SIGNING_ALLOWED=NO
+      - name: Publier le build
+        uses: actions/upload-artifact@v4
+        with:
+          name: zando-mabe-ios-simulator
+          path: ios/App/build/Build/Products/Debug-iphonesimulator
